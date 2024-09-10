@@ -84,8 +84,8 @@ TEST(Print, DifferentTypes)
         string_convertible{});
 
     const std::array<std::string,12> expected = {
-        "1",
-        "97",
+        "true",
+        "a",
         "1",
         "-2",
         "3",
