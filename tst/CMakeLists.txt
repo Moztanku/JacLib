@@ -6,7 +6,8 @@ add_executable(${TESTS_NAME})
 
 target_sources(${TESTS_NAME}
     PRIVATE
-    Types.cpp)
+    Types.cpp
+    Print.cpp)
 
 target_link_libraries(${TESTS_NAME}
     PRIVATE
