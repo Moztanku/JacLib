@@ -29,7 +29,7 @@ using float32  = float;
 using float64  = double;
 
 // String types
-using zstring   = const char*;
+using zstring   = char*;
 using czstring  = const char*;
 
 // Pointer types
