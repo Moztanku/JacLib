@@ -7,7 +7,9 @@
 #elif defined(__clang__)
     #define CLANG_COMPILER
 #elif defined(__INTEL_COMPILER)
+    #warning "Intel compiler not supported, let's hope it works"
     #define INTEL_COMPILER
 #else
+    #warning "Unknown compiler, let's hope it works"
     #define UNKNOWN_COMPILER
 #endif
