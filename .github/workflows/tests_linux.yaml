@@ -2,21 +2,18 @@ name: Built tests on Linux (Gcc/Clang)
 
 on: [push, pull_request]
 
-env:
-  BUILD_TYPE: Debug
-
 jobs:
-  config-matrix:
-    os: ubuntu-latest
-    compiler:
-      - {cpp: g++, c: gcc}
-      - {cpp: clang++, c: clang}
-    build-type: [Debug, Release]
-    shared-lib: [ON, OFF]
-
   Build-Tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        compiler:
+          - {cpp: g++, c: gcc}
+          - {cpp: clang++, c: clang}
+        build-type: [Debug, Release]
+        shared-lib: [ON, OFF]
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
