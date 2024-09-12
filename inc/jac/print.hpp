@@ -37,7 +37,7 @@ enum class LogLevel : uint8
  * @return LogLevel& Reference to the current log level.
  */
 JAC_API
-inline auto LogLevelCurrent() -> LogLevel&;
+auto LogLevelCurrent() -> LogLevel&;
 
 /**
  * @brief Prints a formatted string with the given arguments.
