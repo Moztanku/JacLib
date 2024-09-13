@@ -1,0 +1,41 @@
+name: Build tests on Windows (MSVC)
+
+on: [push, pull_request]
+
+jobs:
+  Build-Tests:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        build-type: [Debug, Release]
+        shared-lib: [ON, OFF]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v2
+        with:
+          cmake-version: '3.30.x'
+
+      - name: Install vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg
+          .\bootstrap-vcpkg.bat
+          .\vcpkg integrate install
+
+      - name: Install GTest
+        run: |
+          vcpkg install gtest
+
+      - name: Build tests
+        run: |
+          cmake -S . -B build -DJacLib_BUILD_TESTS=ON -DJacLib_BUILD_SHARED_LIBS=${SHARED_LIB} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+          cmake --build build --config ${CMAKE_BUILD_TYPE}
+        env:
+          CMAKE_BUILD_TYPE: ${{ matrix.build-type }}
+          SHARED_LIB: ${{ matrix.shared-lib }}
+          CMAKE_TOOLCHAIN_FILE: "C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
