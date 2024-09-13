@@ -2,34 +2,36 @@ name: Built tests on Linux (Gcc/Clang)
 
 on: [push, pull_request]
 
-env:
-  BUILD_TYPE: Debug
-
 jobs:
-  config-matrix:
-    os: ubuntu-latest
-    compiler:
-      - {cpp: g++, c: gcc}
-      - {cpp: clang++, c: clang}
-    build-type: [Debug, Release]
-    shared-lib: [ON, OFF]
-
   Build-Tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-24.04
 
+    strategy:
+      matrix:
+        compiler:
+          - {cpp: g++, c: gcc}
+          - {cpp: clang++, c: clang}
+        build-type: [Debug, Release]
+        shared-lib: [ON, OFF]
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install GTest
         run: |
+          sudo apt update
           sudo apt install -y libgtest-dev
           cd /usr/src/gtest
           sudo cmake CMakeLists.txt
 
+      - name: Install Compiler
+        run: |
+          sudo apt install -y ${{ matrix.compiler.c }}
+
       - name: Build tests
         run: |
-          cmake -S . -B build -DJacLib_BUILD_TESTS=ON
+          cmake -S . -B build -DJacLib_BUILD_TESTS=ON -DJacLib_BUILD_SHARED_LIBS=${SHARED_LIB} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
           cmake --build build
         env:
           CXX: ${{ matrix.compiler.cpp }}
