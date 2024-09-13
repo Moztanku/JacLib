@@ -1,6 +1,9 @@
 name: Build tests on Windows (MSVC)
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   Build-Tests:
