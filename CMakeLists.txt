@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(compiler_flags "")
 
 ## GCC/Clang flags are set by CMAKE_BUILD_TYPE
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(compiler_flags "-g" "-O0" "-Wall" "-Wextra" "-Wpedantic" "-Werror" "-DDEBUG")
     else()

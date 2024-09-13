@@ -130,7 +130,9 @@ TEST(Print, LogLevels)
     print_debug ("", {}, stream);
 
     if (Debug)
+    {
         EXPECT_TRUE (string_contains(stream.str(), "[DEBUG]"));
+    }
 
     stream.str  (std::string());
     print_info  ("", {}, stream);
