@@ -32,8 +32,18 @@ git clone https://github.com/Moztanku/JacLib.git path/to/JacLib
 ```
 2. **Include the library in your CMake project**
 ```cmake
+# Note: Change your_target to your actual target name
 add_subdirectory(path/to/JacLib)
 target_link_libraries(your_target PRIVATE JacLib)
+
+# On Windows it may be necessary to move compiled dlls to the executable directory
+if (MSVC AND BUILD_SHARED_LIBS)
+    add_custom_command(
+        TARGET your_target POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_FILE:JacLib>"
+        "$<TARGET_FILE_DIR:your_target>")
+endif()
 ```
 3. **Include the library in your source files**
 ```cpp
