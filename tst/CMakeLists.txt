@@ -4,6 +4,15 @@ set(TESTS_NAME ${PROJECT_NAME}_tests)
 
 add_executable(${TESTS_NAME})
 
+# Need to move compiled .dll to the same directory as the tests for Windows
+if (MSVC AND BUILD_SHARED_LIBS)
+    add_custom_command(
+        TARGET ${TESTS_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_FILE:${PROJECT_NAME}>"
+        "$<TARGET_FILE_DIR:${TESTS_NAME}>")
+endif()
+
 target_sources(${TESTS_NAME}
     PRIVATE
     Types.cpp

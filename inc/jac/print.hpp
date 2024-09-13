@@ -13,6 +13,7 @@
 #include "jac/debug.hpp"
 #include "jac/types.hpp"
 
+#include "impl/api.hpp"
 #include "jac/impl/print_args.hpp"
 
 namespace jac
@@ -35,12 +36,8 @@ enum class LogLevel : uint8
  * 
  * @return LogLevel& Reference to the current log level.
  */
-inline auto LogLevelCurrent() -> LogLevel&
-{
-    static LogLevel current = Debug ? LogLevel::Debug : LogLevel::Info;
-
-    return current;
-}
+JAC_API
+auto LogLevelCurrent() -> LogLevel&;
 
 /**
  * @brief Prints a formatted string with the given arguments.
@@ -83,6 +80,7 @@ inline auto LogLevelCurrent() -> LogLevel&
  *  @endcode
  */
 template <LogLevel Level = LogLevel::Empty, bool PrintLocation = true>
+JAC_API
 auto print(
     czstring format_string,
     const impl::print_args args = {},

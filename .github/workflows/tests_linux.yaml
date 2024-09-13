@@ -1,4 +1,4 @@
-name: Built tests on Linux (Gcc/Clang)
+name: Build tests on Linux (Gcc/Clang)
 
 on: [push, pull_request]
 
