@@ -112,6 +112,7 @@ auto LogLevelCurrent() -> LogLevel&
 }
 
 template <LogLevel Level, bool PrintLocation>
+JAC_API
 auto print(
     czstring format_string,
     const print_args args,

@@ -13,10 +13,20 @@ if (MSVC AND BUILD_SHARED_LIBS)
         "$<TARGET_FILE_DIR:${TESTS_NAME}>")
 endif()
 
+target_include_directories(${TESTS_NAME}
+    PRIVATE
+    fixtures)
+
 target_sources(${TESTS_NAME}
     PRIVATE
     Types.cpp
     Print.cpp)
+
+if(${PROJECT_NAME}_GRAPHICS)
+    target_sources(${TESTS_NAME}
+        PRIVATE
+        graphics/Window.cpp)
+endif()
 
 target_link_libraries(${TESTS_NAME}
     PRIVATE
