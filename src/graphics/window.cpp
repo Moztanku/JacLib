@@ -1,11 +1,7 @@
 #include "jac/graphics/window.hpp"
 
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
-
-#define GLFW_EXPOSE_NATIVE_WAYLAND
-#include <GLFW/glfw3native.h>
-
-#include <wayland-client.h>
 
 #include "jac/types.hpp"
 #include "jac/print.hpp"
@@ -150,8 +146,8 @@ JAC_API
 void Window::update() noexcept
 {
     bind();
-    glfwPollEvents();
     glfwSwapBuffers(m_window);
+    glfwPollEvents();
 }
 
 JAC_API

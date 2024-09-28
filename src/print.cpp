@@ -104,6 +104,7 @@ namespace jac
 
 using namespace impl;
 
+JAC_API
 auto LogLevelCurrent() -> LogLevel&
 {
     static LogLevel current = Debug ? LogLevel::Debug : LogLevel::Info;

@@ -2,12 +2,12 @@
 
 #include "jac/impl/compiler.hpp"
 
-#ifndef JACLIB_SHARED_LIB
+#ifndef JAC_SHARED_LIB
     #define JAC_API
 #else
 
     #if defined(MSVC_COMPILER)
-        #ifdef JACLIB_BUILD_LIB
+        #ifdef JAC_BUILD_LIB
             #define JAC_API __declspec(dllexport)
         #else
             #define JAC_API __declspec(dllimport)
@@ -15,7 +15,7 @@
     #endif
     
     #if defined(GCC_COMPILER) || defined(CLANG_COMPILER)
-        #ifdef JACLIB_BUILD_LIB
+        #ifdef JAC_BUILD_LIB
             #define JAC_API __attribute__((visibility("default")))
         #else
             #define JAC_API

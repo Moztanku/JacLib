@@ -25,7 +25,7 @@ function (download_dep dep)
     FetchContent_MakeAvailable(${dep_name})
 endfunction()
 
-if(${PROJECT_NAME}_GRAPHICS)
+if(JAC_GRAPHICS)
     foreach(dep ${GFX_DEPS})
         download_dep(${dep})
     endforeach()
