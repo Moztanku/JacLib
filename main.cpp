@@ -34,13 +34,17 @@ int main()
 
     InitAPI();
 
-    // unique_ptr<ShaderI> shader = make_unique<opengl::Shader>("test.glsl");
-    // unique_ptr<VertexBufferI> vbo{new opengl::VertexBuffer<>()};
-    unique_ptr<IndexBufferI> ibo =
-        make_unique<opengl::IndexBuffer<>>();
+    unique_ptr<ShaderI> shader =
+        make_unique<opengl::Shader>("test.glsl");
 
-    unique_ptr<VertexBufferI> vbo =
-        make_unique<opengl::VertexBuffer<>>();
+    shader->setUniform("u_Color", glm::vec4(0.2f, 0.3f, 0.8f, 1.0f));
+
+    // unique_ptr<VertexBufferI> vbo{new opengl::VertexBuffer<>()};
+    // unique_ptr<IndexBufferI> ibo =
+    //     make_unique<opengl::IndexBuffer<>>();
+
+    // unique_ptr<VertexBufferI> vbo =
+    //     make_unique<opengl::VertexBuffer<>>();
 
     return 0;
 }

@@ -47,7 +47,8 @@ namespace jac::graphics
  *  }
  * @endcode
  */
-JAC_API class Window
+JAC_API
+class Window
 {
     public:
         /** @brief Parameters for creating a window. */
