@@ -95,7 +95,8 @@ if(JAC_GRAPHICS)
         target_sources(${PROJECT_NAME}
             PRIVATE
             ${OPENGL_SRC}/shader.cpp
-            ${OPENGL_SRC}/indexbuffer.cpp)
+            ${OPENGL_SRC}/indexbuffer.cpp
+            ${OPENGL_SRC}/vertexbuffer.cpp)
     endif()
 endif()
 

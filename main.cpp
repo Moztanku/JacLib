@@ -2,6 +2,7 @@
 #include "jac/graphics/window.hpp"
 #include "jac/graphics/shader.hpp"
 #include "jac/graphics/indexbuffer.hpp"
+#include "jac/graphics/vertexbuffer.hpp"
 
 #include "jac/graphics/apis/opengl/init.hpp"
 
@@ -33,7 +34,13 @@ int main()
 
     InitAPI();
 
-    unique_ptr<ShaderI> shader = make_unique<opengl::Shader>("test.glsl");
+    // unique_ptr<ShaderI> shader = make_unique<opengl::Shader>("test.glsl");
+    // unique_ptr<VertexBufferI> vbo{new opengl::VertexBuffer<>()};
+    unique_ptr<IndexBufferI> ibo =
+        make_unique<opengl::IndexBuffer<>>();
+
+    unique_ptr<VertexBufferI> vbo =
+        make_unique<opengl::VertexBuffer<>>();
 
     return 0;
 }

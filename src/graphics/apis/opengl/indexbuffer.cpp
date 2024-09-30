@@ -7,29 +7,6 @@ namespace jac::graphics::opengl
 
 template <BufferType Type>
 JAC_API
-IndexBuffer<Type>::IndexBuffer()
-{
-    glGenBuffers(1, &m_id);
-}
-
-template <BufferType Type>
-JAC_API
-IndexBuffer<Type>::IndexBuffer(const uint32* data, const uint32 count)
-{
-    glGenBuffers(1, &m_id);
-    setData(data, count);
-}
-
-template <BufferType Type>
-JAC_API
-IndexBuffer<Type>::IndexBuffer(const std::span<uint32> data)
-{
-    glGenBuffers(1, &m_id);
-    setData(data);
-}
-
-template <BufferType Type>
-JAC_API
 IndexBuffer<Type>::~IndexBuffer()
 {
     destroy();
@@ -80,6 +57,9 @@ template <BufferType Type>
 JAC_API
 bool IndexBuffer<Type>::isBound() const
 {
+    if (m_id == 0u)
+        return false;
+
     int current_id;
     glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &current_id);
 
@@ -98,6 +78,8 @@ JAC_API
 void IndexBuffer<Type>::setData(const uint32* data, const uint32 count)
 {
     destroy();
+
+    glGenBuffers(1, &m_id);
 
     m_count = count;
 

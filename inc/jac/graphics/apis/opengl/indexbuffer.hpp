@@ -12,30 +12,18 @@ namespace jac::graphics::opengl
 
 /**
  * @brief OpenGL implementation of the IndexBuffer interface
+ * 
+ * @tparam Type The type of the buffer, static, dynamic or stream, @see jac::graphics::BufferType
  */
 template <BufferType Type = BufferType::Static>
-class IndexBuffer : public jac::graphics::IndexBufferI
+class IndexBuffer : public IndexBufferI
 {
 public:
     /**
-     * @brief Construct a new empty IndexBuffer object, fill it with data using setData().
+     * @brief Construct a new IndexBuffer object, needs to be initialized with setData()
+     *  and setLayout() before use.
      */
-    IndexBuffer();
-
-    /**
-     * @brief Construct a new IndexBuffer object and fill it with data.
-     * 
-     * @param data The data to fill the buffer with
-     * @param count The number of indices in the data
-     */
-    IndexBuffer(const uint32* data, const uint32 count);
-
-    /**
-     * @brief Construct a new IndexBuffer object and fill it with data.
-     * 
-     * @param data The data to fill the buffer with
-     */
-    IndexBuffer(const std::span<uint32> data);
+    IndexBuffer() = default;
 
     /**
      * @brief Destroy the IndexBuffer object and free the buffer.

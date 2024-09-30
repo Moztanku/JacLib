@@ -17,14 +17,14 @@ namespace jac::graphics::opengl
  * @brief OpenGL implementation of the Shader interface
  */
 JAC_API
-class Shader : public jac::graphics::ShaderI
+class Shader : public ShaderI
 {
 public:
     /**
      * @brief Construct a new Shader object from vertex and fragment shader sources
      * 
-     * @param vertex_shader The source of the vertex shader
-     * @param fragment_shader The source of the fragment shader
+     * @param vertex_shader File path to the vertex shader
+     * @param fragment_shader File path to the fragment shader
      */
     Shader(
         const std::string_view vertex_shader,
@@ -36,7 +36,7 @@ public:
      *  The combined shader source should contain both the vertex and fragment shaders
      *  in the same source marked by the tags: "#vertex" and "#fragment"
      * 
-     * @param combined_shader The source of the combined shader
+     * @param combined_shader File path to the combined shader
      */
     Shader(
         const std::string_view combined_shader
