@@ -1,3 +1,8 @@
+/**
+ * @file shader.hpp
+ * @author Moztanku (mostankpl@gmail.com)
+ * @brief This file contains shader interface for the graphics API.
+ */
 #pragma once
 
 #include "jac/impl/api.hpp"
@@ -25,6 +30,13 @@ struct ShaderI : public impl::Shader_Base
     virtual void unbind() const = 0;
 
     /**
+     * @brief Returns whether the shader is bound
+     * 
+     * @return true If the shader is bound
+     */
+    virtual bool isBound() const = 0;
+
+    /**
      * @brief Set a uniform in the shader
      * 
      * @tparam T The type of the uniform, can be any scalar, vector, or matrix type. For vectors and matrices use glm::vec and glm::mat.
@@ -43,9 +55,4 @@ struct ShaderI : public impl::Shader_Base
 //  optionally included based on the graphics APIs selected.
 #if !defined(JAC_BUILD_LIB) && defined(JAC_GRAPHICS_OPENGL)
     #include "jac/graphics/apis/opengl/shader.hpp"
-
-    namespace jac::graphics
-    {
-        using Shader = opengl::Shader;
-    }
 #endif

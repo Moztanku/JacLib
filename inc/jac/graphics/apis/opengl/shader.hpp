@@ -1,3 +1,8 @@
+/**
+ * @file opengl/shader.hpp
+ * @author Moztanku (mostankpl@gmail.com)
+ * @brief This file contains the OpenGL implementation of the Shader interface.
+ */
 #pragma once
 
 #include "jac/graphics/shader.hpp"
@@ -15,14 +20,37 @@ JAC_API
 class Shader : public jac::graphics::ShaderI
 {
 public:
+    /**
+     * @brief Construct a new Shader object from vertex and fragment shader sources
+     * 
+     * @param vertex_shader The source of the vertex shader
+     * @param fragment_shader The source of the fragment shader
+     */
     Shader(
         const std::string_view vertex_shader,
         const std::string_view fragment_shader
     );
+
+    /**
+     * @brief Construct a new Shader object from a combined shader source
+     *  The combined shader source should contain both the vertex and fragment shaders
+     *  in the same source marked by the tags: "#vertex" and "#fragment"
+     * 
+     * @param combined_shader The source of the combined shader
+     */
+    Shader(
+        const std::string_view combined_shader
+    );
+
+    /**
+     * @brief Destroy the Shader object and free the shader program
+     */
     ~Shader();
 
     void bind() const override;
     void unbind() const override;
+
+    bool isBound() const override;
 
 private:
     uint m_id;

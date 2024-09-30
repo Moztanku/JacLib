@@ -1,10 +1,155 @@
 #include "jac/graphics/apis/opengl/shader.hpp"
-#include "jac/graphics/apis/opengl/init.hpp"
+
+#include <glad/gl.h>
 
 #include <glm/gtc/type_ptr.hpp>
 
+#include <string>
+#include <fstream>
+#include <filesystem>
+
+#include "jac/print.hpp"
+
 namespace
 {
+
+auto read_file(const std::string_view path) -> std::string
+{
+    std::ifstream file(path.data(), std::ios::in);
+
+    if (!file.is_open())
+        return "";
+
+    std::stringstream buffer;
+
+    buffer << file.rdbuf();
+
+    return buffer.str();
+}
+
+struct ShaderSource
+{
+    std::string vertex;
+    std::string fragment;
+};
+
+auto split_combined_shader(const std::string_view combined_shader) -> ShaderSource
+{
+    constexpr std::string_view vertex_tag = "#vertex";
+    constexpr std::string_view fragment_tag = "#fragment";
+
+    std::string vertex_shader;
+    std::string fragment_shader;
+
+    const size_t vertex_pos = combined_shader.find(vertex_tag);
+    const size_t fragment_pos = combined_shader.find(fragment_tag);
+
+    if (vertex_pos == std::string::npos || fragment_pos == std::string::npos)
+        return { "", "" };
+
+    if (vertex_pos < fragment_pos)
+    {
+        vertex_shader = combined_shader.substr(
+            vertex_pos + vertex_tag.size(),
+            fragment_pos - (vertex_pos + vertex_tag.size())    
+        );
+
+        fragment_shader = combined_shader.substr(
+            fragment_pos + fragment_tag.size()
+        );
+    }
+    else
+    {
+        vertex_shader = combined_shader.substr(
+            vertex_pos + vertex_tag.size()
+        );
+
+        fragment_shader = combined_shader.substr(
+            fragment_pos + fragment_tag.size(),
+            vertex_pos - (fragment_pos + fragment_tag.size())
+        );
+    }
+
+    return ShaderSource{
+        .vertex = std::move(vertex_shader),
+        .fragment = std::move(fragment_shader)
+    };
+}
+
+template <uint Type>
+auto compile_shader(const std::string_view source) -> uint
+{
+    constexpr std::string_view type_name = 
+        Type == GL_VERTEX_SHADER ? "vertex" : "fragment";
+
+    if constexpr(Type != GL_VERTEX_SHADER && Type != GL_FRAGMENT_SHADER)
+    {
+        jac::print_error("Invalid shader type");
+
+        return 0;
+    }
+
+    if (source.empty())
+    {
+        jac::print_error("Empty {} shader source", type_name);
+
+        return 0;
+    }
+
+    const uint id = glCreateShader(Type);
+
+    const char* src = source.data();
+    glShaderSource(id, 1, &src, nullptr);
+    glCompileShader(id);
+
+    int result;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+
+    if (result == GL_FALSE)
+    {
+        int length;
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+
+        std::string message(length, '\0');
+        glGetShaderInfoLog(id, length, &length, message.data());
+
+        jac::print_error(
+            "Failed to compile {} shader:\n{}",
+            {type_name, message}
+        );
+
+        return 0;
+    }
+
+    return id;
+}
+
+auto compile_shader_program(const ShaderSource& source) -> uint
+{
+    const uint program = glCreateProgram();
+
+    const uint vertex   = compile_shader<GL_VERTEX_SHADER>(source.vertex);
+    const uint fragment = compile_shader<GL_FRAGMENT_SHADER>(source.fragment);
+
+    if (vertex == 0 || fragment == 0)
+    {
+        glDeleteShader(vertex);
+        glDeleteShader(fragment);
+
+        return 0;
+    }
+
+    glAttachShader(program, vertex);
+    glAttachShader(program, fragment);
+
+    glLinkProgram(program);
+    glValidateProgram(program);
+
+    glDeleteShader(vertex);
+    glDeleteShader(fragment);
+
+    return program;
+}
 
 } // namespace
 
@@ -17,9 +162,25 @@ Shader::Shader(
     const std::string_view fragment_shader
 )
 {
-    init_gl();
-    
-    m_id = glCreateProgram();
+    const ShaderSource source = 
+    {
+        .vertex = read_file(vertex_shader),
+        .fragment = read_file(fragment_shader)
+    };
+
+    m_id = compile_shader_program(source);
+}
+
+JAC_API
+Shader::Shader(
+    const std::string_view combined_shader
+)
+{
+    const ShaderSource source = split_combined_shader(
+        read_file(combined_shader)
+    );
+
+    m_id = compile_shader_program(source);
 }
 
 JAC_API
@@ -38,6 +199,15 @@ JAC_API
 void Shader::unbind() const
 {
     glUseProgram(0);
+}
+
+JAC_API
+bool Shader::isBound() const
+{
+    int current_id;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &current_id);
+
+    return static_cast<uint>(current_id) == m_id;
 }
 
 JAC_API

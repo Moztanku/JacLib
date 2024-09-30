@@ -86,9 +86,16 @@ if(JAC_GRAPHICS)
 
         target_sources(${PROJECT_NAME}
             PRIVATE
+            ${SRC_DIR}/graphics/common.cpp
             ${SRC_DIR}/graphics/window.cpp
-            ${SRC_DIR}/graphics/shader.cpp
-            ${SRC_DIR}/graphics/apis/opengl/shader.cpp)
+            ${SRC_DIR}/graphics/shader.cpp)
+
+        set(OPENGL_SRC ${SRC_DIR}/graphics/apis/opengl)
+
+        target_sources(${PROJECT_NAME}
+            PRIVATE
+            ${OPENGL_SRC}/shader.cpp
+            ${OPENGL_SRC}/indexbuffer.cpp)
     endif()
 endif()
 

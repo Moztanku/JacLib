@@ -7,20 +7,29 @@
 namespace jac::graphics::opengl
 {
 
-void init_gl() noexcept
+inline bool init_gl() noexcept
 {
     static bool initialized{false};
 
     if (initialized)
-        return;
+        return true;
 
     if (!gladLoaderLoadGL())
     {
         jac::print_error("Failed to load OpenGL functions");
-        return;
+        return false;
     }
 
     initialized = true;
+
+    return true;
+}
+
+inline void terminate_gl() noexcept
+{
+    gladLoaderUnloadGL();
+
+    return;
 }
 
 } // namespace jac::graphics::opengl
