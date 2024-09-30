@@ -37,7 +37,7 @@ jobs:
       - name: Build tests
         shell: bash
         run: |
-          cmake -S . -B build -DJacLib_BUILD_TESTS=ON -DBUILD_SHARED_LIBS=${SHARED_LIB} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -G "${CMAKE_GENERATOR}"
+          cmake -S . -B build -DJAC_BUILD_TESTS=ON -DBUILD_SHARED_LIBS=${SHARED_LIB} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -G "${CMAKE_GENERATOR}"
           cmake --build build --config ${CMAKE_BUILD_TYPE}
         env:
           CMAKE_BUILD_TYPE: ${{ matrix.build-type }}

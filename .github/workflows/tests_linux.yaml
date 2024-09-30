@@ -34,7 +34,7 @@ jobs:
 
       - name: Build tests
         run: |
-          cmake -S . -B build -DJacLib_BUILD_TESTS=ON -DJacLib_BUILD_SHARED_LIBS=${SHARED_LIB} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+          cmake -S . -B build -DJAC_BUILD_TESTS=ON -DJacLib_BUILD_SHARED_LIBS=${SHARED_LIB} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
           cmake --build build
         env:
           CXX: ${{ matrix.compiler.cpp }}

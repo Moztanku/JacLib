@@ -17,6 +17,12 @@
 - **print.hpp**: A print function with multiple overloads that supports various log levels, (<span style="color:orange">"*{} {}*"</span>, {<span style="color:orange">"*formatted*"</span>, <span style="color:orange">"*strings*"</span>}), colored <span style="color:yellow">[HEADERS]</span> and source location <span style="color:grey">@ README.md:16</span>
 - **types.hpp**: A set of type aliases
 - **debug.hpp**: A constexpr constant that is enabled when the compiler is in debug mode
+- **graphics**: A module that provides multiple classes and functions for graphics programming including:
+- - **window.hpp**: Wrapper class for GLFW windows
+- - **shader.hpp**: Interface for shaders with implementation for OpenGL
+- - **indexbuffer.hpp** | **vertexbuffer.hpp** | **vertexarray.hpp**: Classes for managing GPU buffers
+- - **common.hpp**: Common functions and classes for graphics programming and API management
+
 
 ## How to include in your project
 ***You can see example usage in `tst\CMakeLists.txt`***
@@ -24,6 +30,7 @@
 ### Requirements
 - **CMake**
 - **C++20**
+- **OpenGL** (unless `JAC_GRAPHICS` is set to `OFF` in CMake)
 
 ### Steps
 1. **Clone the repository**
@@ -62,6 +69,7 @@ int main() {
 - **CMake**
 - **C++20**
 - **Gtest**
+- **OpenGL**
 
 ### Steps
 1. **Clone the repository**
@@ -73,7 +81,7 @@ git clone https://github.com/Moztanku/JacLib.git path/to/JacLib
 # Enter the repository directory
 cd path/to/JacLib
 # Configure step
-cmake -B build -S . -DJacLib_BUILD_TESTS=ON
+cmake -B build -S . -DJAC_BUILD_TESTS=ON
 # Build step
 cmake --build build
 ```
@@ -87,7 +95,8 @@ cmake --build build
 ```
 
 ## Build options
-- **JacLib_BUILD_TESTS={ON|OFF}**: Build the tests (default: ***OFF***)
+- **JAC_GRAPHICS={ON|OFF}**: Build the graphics module (default: ***ON***)
+- **JAC_BUILD_TESTS={ON|OFF}**: Build the tests (default: ***OFF***)
 - **BUILD_SHARED_LIBS={ON|OFF}**: Build the library as a shared library (default: ***ON***)
 - **CMAKE_BUILD_TYPE={Release|Debug}**: Build type on **Linux** (default: ***Release***)
 - **--config {Release|Debug}**: Build type, set during build step on **Windows** (default: ***Release***)
