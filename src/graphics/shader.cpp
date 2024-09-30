@@ -1,5 +1,7 @@
 #include "jac/graphics/shader.hpp"
 
+#include "jac/print.hpp"
+
 namespace jac::graphics
 {
 
@@ -13,6 +15,9 @@ void ShaderI::setUniform(const std::string& uniform_name, const T& value)
     if (location)
     {
         set_uniform(*location, value);
+    } else
+    {
+        jac::print_error("Invalid uniform name: {}", uniform_name);
     }
 }
 
