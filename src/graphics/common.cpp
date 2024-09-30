@@ -41,7 +41,7 @@ auto terminate_invalid() -> void
 namespace jac::graphics
 {
 
-JAC_API
+JAC_IMPL
 auto CurrentAPI() -> API&
 {
     static API api = default_api;
@@ -49,7 +49,7 @@ auto CurrentAPI() -> API&
     return api;
 }
 
-JAC_API
+JAC_IMPL
 auto InitAPI() -> bool
 {
     switch (CurrentAPI())
@@ -69,7 +69,7 @@ auto InitAPI() -> bool
     }
 }
 
-JAC_API
+JAC_IMPL
 auto TerminateAPI() -> void
 {
     switch (CurrentAPI())

@@ -6,14 +6,14 @@ namespace jac::graphics::opengl
 {
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 IndexBuffer<Type>::~IndexBuffer()
 {
     destroy();
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 IndexBuffer<Type>::IndexBuffer(IndexBuffer&& other)
     : m_id{other.m_id}, m_count{other.m_count}
 {
@@ -22,7 +22,7 @@ IndexBuffer<Type>::IndexBuffer(IndexBuffer&& other)
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto IndexBuffer<Type>::operator=(IndexBuffer&& other) -> IndexBuffer&
 {
     if (this != &other)
@@ -40,21 +40,21 @@ auto IndexBuffer<Type>::operator=(IndexBuffer&& other) -> IndexBuffer&
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 void IndexBuffer<Type>::bind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 void IndexBuffer<Type>::unbind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 bool IndexBuffer<Type>::isBound() const
 {
     if (m_id == 0u)
@@ -67,14 +67,14 @@ bool IndexBuffer<Type>::isBound() const
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 uint32 IndexBuffer<Type>::getCount() const
 {
     return m_count;
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 void IndexBuffer<Type>::setData(const uint32* data, const uint32 count)
 {
     destroy();
@@ -99,14 +99,14 @@ void IndexBuffer<Type>::setData(const uint32* data, const uint32 count)
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 void IndexBuffer<Type>::setData(const std::span<uint32> data)
 {
     setData(data.data(), static_cast<uint32>(data.size()));
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 void IndexBuffer<Type>::destroy()
 {
     if (m_id != 0u)
@@ -118,7 +118,7 @@ void IndexBuffer<Type>::destroy()
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 uint32* IndexBuffer<Type>::lock(const AccessType access)
 {
     bind();
@@ -134,7 +134,7 @@ uint32* IndexBuffer<Type>::lock(const AccessType access)
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 void IndexBuffer<Type>::unlock()
 {
     bind();
@@ -143,15 +143,15 @@ void IndexBuffer<Type>::unlock()
 }
 
 template class
-JAC_API
+JAC_IMPL
 IndexBuffer<BufferType::Static>;
 
 template class
-JAC_API
+JAC_IMPL
 IndexBuffer<BufferType::Dynamic>;
 
 template class
-JAC_API
+JAC_IMPL
 IndexBuffer<BufferType::Stream>;
 
 } // namespace jac::graphics::opengl

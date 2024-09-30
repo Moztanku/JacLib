@@ -6,7 +6,7 @@ namespace jac::graphics
 {
 
 template <typename T>
-JAC_API
+JAC_IMPL
 void ShaderI::setUniform(const std::string& uniform_name, const T& value)
 {
     std::optional<int> location =
@@ -23,7 +23,7 @@ void ShaderI::setUniform(const std::string& uniform_name, const T& value)
 
 #define INSTANTIATE_SCALAR(T) \
     template \
-    JAC_API \
+    JAC_IMPL \
     void ShaderI::setUniform<T>( \
         const std::string&, \
         const T&);
@@ -38,7 +38,7 @@ INSTANTIATE_SCALAR(double)
 
 #define INSTANTIATE_VEC(T, N) \
     template \
-    JAC_API \
+    JAC_IMPL \
     void ShaderI::setUniform<glm::vec<N, T>>( \
         const std::string&, \
         const glm::vec<N, T>&);
@@ -59,7 +59,7 @@ INSTANTIATE_VECTORS(double)
 
 #define INSTANTIATE_MAT(T, N, M) \
     template \
-    JAC_API \
+    JAC_IMPL \
     void ShaderI::setUniform<glm::mat<N, M, T>>( \
         const std::string&, \
         const glm::mat<N, M, T>&);

@@ -16,6 +16,7 @@ namespace jac::graphics::opengl
  * @tparam Type The type of the buffer, static, dynamic or stream, @see jac::graphics::BufferType
  */
 template <BufferType Type = BufferType::Static>
+JAC_API
 class VertexBuffer : public VertexBufferI
 {
 public:

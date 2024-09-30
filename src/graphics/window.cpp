@@ -66,11 +66,11 @@ auto create_window(const jac::graphics::Window::params& params) -> owner<GLFWwin
 namespace jac::graphics
 {
 
-JAC_API
+JAC_IMPL
 Window::Window() noexcept : Window(params{})
 {}
 
-JAC_API
+JAC_IMPL
 Window::Window(const params& params) noexcept
 {
     // If s_window_count is 0 then it's the first window, so we need to initialize GLFW
@@ -98,7 +98,7 @@ Window::Window(const params& params) noexcept
     bind();
 }
 
-JAC_API
+JAC_IMPL
 Window::~Window() noexcept
 {
     if (m_window)
@@ -111,14 +111,14 @@ Window::~Window() noexcept
         glfwTerminate();
 }
 
-JAC_API
+JAC_IMPL
 Window::Window(Window&& other) noexcept
     : m_window{other.m_window}
 {
     other.m_window = nullptr;
 }
 
-JAC_API
+JAC_IMPL
 Window& Window::operator=(Window&& other) noexcept
 {
     if (this != &other)
@@ -130,19 +130,19 @@ Window& Window::operator=(Window&& other) noexcept
     return *this;
 }
 
-JAC_API
+JAC_IMPL
 void Window::bind() const noexcept
 {
     glfwMakeContextCurrent(m_window);
 }
 
-JAC_API
+JAC_IMPL
 void Window::unbind() const noexcept
 {
     glfwMakeContextCurrent(nullptr);
 }
 
-JAC_API
+JAC_IMPL
 void Window::update() noexcept
 {
     bind();
@@ -150,20 +150,20 @@ void Window::update() noexcept
     glfwPollEvents();
 }
 
-JAC_API
+JAC_IMPL
 void Window::close() noexcept
 {
     bind();
     glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 }
 
-JAC_API
+JAC_IMPL
 bool Window::isAlive() const noexcept
 {
     return glfwWindowShouldClose(m_window) == 0;
 }
 
-JAC_API
+JAC_IMPL
 std::pair<uint32_t, uint32_t> Window::getPosition() const noexcept
 {
     int x, y;

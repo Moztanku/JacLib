@@ -6,14 +6,14 @@ namespace jac::graphics::opengl
 {
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 VertexBuffer<Type>::~VertexBuffer()
 {
     destroy();
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 VertexBuffer<Type>::VertexBuffer(VertexBuffer&& other)
     : m_id{other.m_id}, m_size{other.m_size}
 {
@@ -22,7 +22,7 @@ VertexBuffer<Type>::VertexBuffer(VertexBuffer&& other)
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::operator=(VertexBuffer&& other) -> VertexBuffer&
 {
     if (this != &other)
@@ -40,21 +40,21 @@ auto VertexBuffer<Type>::operator=(VertexBuffer&& other) -> VertexBuffer&
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::bind() const -> void
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_id);
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::unbind() const -> void
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::isBound() const -> bool
 {
     if (m_id == 0u)
@@ -67,14 +67,14 @@ auto VertexBuffer<Type>::isBound() const -> bool
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::getCount() const -> uint32
 {
     return m_size / m_layout.getStride();
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::setData(const void* data, const uint32 size) -> void
 {
     destroy();
@@ -99,7 +99,7 @@ auto VertexBuffer<Type>::setData(const void* data, const uint32 size) -> void
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::setData(const std::span<std::byte> data) -> void
 {
     setData(
@@ -109,21 +109,21 @@ auto VertexBuffer<Type>::setData(const std::span<std::byte> data) -> void
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::setLayout(const VertexBufferLayout& layout) -> void
 {
     m_layout = layout;
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::getLayout() const -> const VertexBufferLayout&
 {
     return m_layout;
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::destroy() -> void
 {
     if (m_id != 0u)
@@ -135,7 +135,7 @@ auto VertexBuffer<Type>::destroy() -> void
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::lock(const AccessType access) -> void*
 {
     bind();
@@ -151,7 +151,7 @@ auto VertexBuffer<Type>::lock(const AccessType access) -> void*
 }
 
 template <BufferType Type>
-JAC_API
+JAC_IMPL
 auto VertexBuffer<Type>::unlock() -> void
 {
     bind();
@@ -160,15 +160,15 @@ auto VertexBuffer<Type>::unlock() -> void
 }
 
 template class
-JAC_API
+JAC_IMPL
 VertexBuffer<BufferType::Static>;
 
 template class
-JAC_API
+JAC_IMPL
 VertexBuffer<BufferType::Dynamic>;
 
 template class
-JAC_API
+JAC_IMPL
 VertexBuffer<BufferType::Stream>;
 
 } // namespace jac::graphics::opengl

@@ -104,7 +104,7 @@ namespace jac
 
 using namespace impl;
 
-JAC_API
+JAC_IMPL
 auto LogLevelCurrent() -> LogLevel&
 {
     static LogLevel current = Debug ? LogLevel::Debug : LogLevel::Info;
@@ -113,7 +113,7 @@ auto LogLevelCurrent() -> LogLevel&
 }
 
 template <LogLevel Level, bool PrintLocation>
-JAC_API
+JAC_IMPL
 auto print(
     czstring format_string,
     const print_args args,
@@ -162,7 +162,7 @@ auto print(
 
 #define INSTANTIATE_PRINT(Level, PrintLocation) \
     template \
-    JAC_API \
+    JAC_IMPL \
     auto print<Level, PrintLocation>( \
         czstring, \
         const print_args, \
